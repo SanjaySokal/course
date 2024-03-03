@@ -37,7 +37,6 @@ router.post("/orders", async (req, resp) => {
             resp.send({ status: order })
         }
     } catch (error) {
-        console.log(error);
         resp.send({ status: error })
     }
 })

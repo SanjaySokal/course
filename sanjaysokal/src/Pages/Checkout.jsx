@@ -66,9 +66,9 @@ const Checkout = () => {
     const placeOrder = async (e) => {
         const email = context.login.email;
         const currency = "INR";
-        const receipt = name + "_" + Math.trunc(Math.random() * 1000000) + "_" + email;
+        const receipt = name + "_" + email;
 
-        const getData = await fetch("http://localhost:4000/order/orders", {
+        const getData = await fetch("http://api.softingart.com/order/orders", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -95,13 +95,13 @@ const Checkout = () => {
             "name": "SoftingArt",
             "description": "Purchasing courses online. Course name is " + course[0].course_name,
             "image": "https://www.softingart.com/favicon.png",
-            "order_id": order.status.id,
+            "order_id": order.status.orderId,
             handler: async function (response) {
                 const body = {
                     ...response,
                 };
 
-                const validateRes = await fetch("http://localhost:4000/order/verify", {
+                const validateRes = await fetch("http://api.softingart.com/order/verify", {
                     method: "POST",
                     body: JSON.stringify(body),
                     headers: {
@@ -109,9 +109,8 @@ const Checkout = () => {
                     },
                 })
                 const jsonRes = await validateRes.json();
-                console.log(jsonRes);
                 if (jsonRes.status === "success") {
-                    fetch("http://localhost:4000/order/add", {
+                    fetch("http://api.softingart.com/order/add", {
                         method: "POST",
                         body: JSON.stringify({
                             email: email,
@@ -129,7 +128,6 @@ const Checkout = () => {
                 }
             },
             "prefill": {
-                name: "Sanjay Sokal",
                 email: context.login.email,
                 course: name
             },
@@ -147,13 +145,13 @@ const Checkout = () => {
 
         rzp1.on('payment.failed', function (response) {
             setError2(<FormError data={"payment was failed!"} class={"false text-center"} />);
-            alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.reason);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id);
+            // alert(response.error.code);
+            // alert(response.error.description);
+            // alert(response.error.source);
+            // alert(response.error.step);
+            // alert(response.error.reason);
+            // alert(response.error.metadata.order_id);
+            // alert(response.error.metadata.payment_id);
         });
         rzp1.open();
         e.preventDefault();
