@@ -68,7 +68,7 @@ const Checkout = () => {
         const currency = "INR";
         const receipt = name + "_" + email;
 
-        const getData = await fetch("http://api.softingart.com/order/orders", {
+        const getData = await fetch("https://api.softingart.com/order/orders", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const Checkout = () => {
                     ...response,
                 };
 
-                const validateRes = await fetch("http://api.softingart.com/order/verify", {
+                const validateRes = await fetch("https://api.softingart.com/order/verify", {
                     method: "POST",
                     body: JSON.stringify(body),
                     headers: {
@@ -110,7 +110,7 @@ const Checkout = () => {
                 })
                 const jsonRes = await validateRes.json();
                 if (jsonRes.status === "success") {
-                    fetch("http://api.softingart.com/order/add", {
+                    fetch("https://api.softingart.com/order/add", {
                         method: "POST",
                         body: JSON.stringify({
                             email: email,
